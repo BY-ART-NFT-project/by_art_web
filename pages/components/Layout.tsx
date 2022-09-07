@@ -1,7 +1,8 @@
 import css from "styled-jsx/css";
 import Footer from "./Footer";
 import Header from "./Header";
-import Navbar from "./NavBar";
+import Navbar from "./Navbar";
+import Seo from "./Seo";
 
 const style = css`
   .wrapper {
@@ -21,6 +22,7 @@ export default function Layout({ children }: React.PropsWithChildren<{}>) {
   return (
     <>
       <div className="wrapper">
+        <Seo />
         <Header />
         <Navbar />
         <div className="container">{children}</div>
