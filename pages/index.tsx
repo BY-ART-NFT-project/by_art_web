@@ -43,8 +43,11 @@ const Home: NextPage = () => {
         style={{
           width: "100%",
           border: "1px solid black",
-          height: "400px",
-          backgroundImage: items?.banner_image_url,
+          height: "200px",
+          backgroundImage: `url(${items?.banner_image_url})`,
+          backgroundPosition: "left center",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
         }}
       ></div>
       <style jsx>{style}</style>
