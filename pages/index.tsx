@@ -1,15 +1,8 @@
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
-import styles from "../styles/Home.module.css";
-import css from "styled-jsx/css";
-
-const style = css`
-  /* .banner {
-    width: 100%;
-    border: 1px solid black;
-    height: 400px;
-  } */
-`;
+import Banner from "components/Banner";
+import styles from "styles/Home.module.scss";
+import Layout from "components/Layout";
 
 interface Inft {
   banner_image_url: string;
@@ -22,7 +15,8 @@ interface Inft {
 const COLLECTION_SLUG = "by-art";
 
 const Home: NextPage = () => {
-  const [items, setItems] = useState<Inft>();
+  const [items, setItems] = useState<Inft|undefined>();
+  const [banner,setBanner] = useState<string>()
   //api 호출
   useEffect(() => {
     (async () => {
@@ -30,29 +24,21 @@ const Home: NextPage = () => {
         await fetch(
           `https://api.opensea.io/api/v1/collection/${COLLECTION_SLUG}`
         )
-      ).json();
+      ).json()
       setItems(collection);
-      console.log(items?.banner_image_url);
+      console.log(items)
     })();
   }, []);
 
+  useEffect(()=>{
+    setBanner(items?.banner_image_url)
+  },[items])
+
   return (
-    <>
-      <div>Home</div>
-      <div
-        style={{
-          width: "100%",
-          border: "1px solid black",
-          height: "200px",
-          backgroundImage: `url(${items?.banner_image_url})`,
-          backgroundPosition: "left center",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-        }}
-      ></div>
-      <style jsx>{style}</style>
-    </>
-  );
-};
+    <Layout>
+      <Banner bgProp={banner}/>
+    </Layout>
+  )
+}
 
 export default Home;

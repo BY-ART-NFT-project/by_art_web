@@ -1,0 +1,15 @@
+@import './variables';
+@import './mixins';
+
+.container {
+  max-width: 36rem;
+  padding: 0 1rem;
+  margin: 3rem auto 6rem;
+  border: __vw(1) solid rgba(0,0,0,0.8);
+}
+
+.banner {
+  width: 100%;
+  border: __vw(1) solid rgba(0,0,0,0.8);
+  height: __vw(200);
+}
