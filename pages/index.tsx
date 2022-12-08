@@ -1,8 +1,10 @@
 import type { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Banner from "components/Banner";
 import styles from "styles/Home.module.scss";
 import Layout from "components/Layout";
+import { useQuery } from "react-query";
+import { fetchCollections } from "./api/api";
 
 interface Inft {
   banner_image_url: string;
@@ -12,31 +14,42 @@ interface Inft {
   image_url: string;
 }
 
-const COLLECTION_SLUG = "by-art";
-
 const Home: NextPage = () => {
-  const [items, setItems] = useState<Inft|undefined>();
-  const [banner,setBanner] = useState<string>()
-  //api 호출
-  useEffect(() => {
-    (async () => {
-      const { collection } = await (
-        await fetch(
-          `https://api.opensea.io/api/v1/collection/${COLLECTION_SLUG}`
-        )
-      ).json()
-      setItems(collection);
-      console.log(items)
-    })();
-  }, []);
-
+  const { isLoading, data }= useQuery("collection", fetchCollections, 
+  {
+    refetchOnWindowFocus: false,
+    retry: 1,
+    onSuccess: data => {
+      console.log(data)
+    },
+    onError: e => {
+      console.log(e,"실패");
+    },
+    select: (data) => data.collection
+    }
+  );
   useEffect(()=>{
-    setBanner(items?.banner_image_url)
-  },[items])
+    console.log(isLoading)
+    console.log(data)
+  },[data])
 
   return (
+
     <Layout>
-      <Banner bgProp={banner}/>
+      
+      {isLoading ? null : 
+      <>
+        <Banner bg={data?.large_image_url}/>
+        <div>
+          {data?.description}
+        </div>
+        <div>
+          {data?.description}
+        </div>
+      </>
+      }
+      
+      
     </Layout>
   )
 }

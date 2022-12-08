@@ -1,28 +1,25 @@
+import { motion } from "framer-motion";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import styles from "styles/Home.module.scss";
 
 interface Ibg {
-    bgProp: string;
+    bg:string;
 }
 
-const Banner = (bgProp:Ibg) => {
-    const [banner, setBanner] = useState<Ibg>()
-    useEffect(()=>{
-        setBanner(bgProp)
-    },[bgProp])
+const Banner = (bg:Ibg) => {
     return (
-        <div
-            className={styles.banner}
-            style={{
-            background: `url(${banner}) left center/ cover no-repeat`,
-            }}
-        ></div>
+        <div className={styles.banner}>
+            <Image
+              src={`${bg.bg}`}
+              alt="banner"
+              width="200"
+              height="200"
+              unoptimized={true}
+            />
+        </div>
     )
 }
-
-Banner.defaultProps = {
-    bgProp:"default",
-};
 
 export default Banner;
 
